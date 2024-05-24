@@ -4,7 +4,7 @@ import hashPassword from "../../services/hash.password";
 
 const signUp = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, created_at, updated_at } = req.body;
 
     if (password.length < 6) {
       return res
@@ -23,12 +23,7 @@ const signUp = async (req: Request, res: Response) => {
         const hashedPassword = await hashPassword(password);
         const result = await pool.query(
           "INSERT INTO users (email, password, created_at, updated_at) VALUES($1, $2, $3, $4) RETURNING *",
-          [
-            email,
-            hashedPassword,
-            new Date().toISOString(),
-            new Date().toISOString(),
-          ]
+          [email, hashedPassword, created_at, updated_at]
         );
         return res.status(201).json({ data: result.rows[0] });
       }

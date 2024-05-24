@@ -11,6 +11,8 @@ const answerSurvey = async (req: Request, res: Response) => {
       active,
       questions,
       user_id,
+      created_at,
+      updated_at,
     } = req.body;
 
     const result = await pool.query(
@@ -23,8 +25,8 @@ const answerSurvey = async (req: Request, res: Response) => {
         active,
         questions,
         user_id,
-        new Date().toISOString(),
-        new Date().toISOString(),
+        created_at,
+        updated_at,
       ]
     );
     return res.status(201).json({ data: result.rows[0] });
