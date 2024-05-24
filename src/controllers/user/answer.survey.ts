@@ -14,8 +14,18 @@ const answerSurvey = async (req: Request, res: Response) => {
     } = req.body;
 
     const result = await pool.query(
-      "INSERT INTO survey_answers (survey_id, title, description, expiry_date, active, questions, user_id) VALUES($1, $2, $3, $4, $5, $6::JSON[], $7) RETURNING *",
-      [survey_id, title, description, expiry_date, active, questions, user_id]
+      "INSERT INTO survey_answers (survey_id, title, description, expiry_date, active, questions, user_id, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6::JSON[], $7, $8, $9) RETURNING *",
+      [
+        survey_id,
+        title,
+        description,
+        expiry_date,
+        active,
+        questions,
+        user_id,
+        new Date().toISOString(),
+        new Date().toISOString(),
+      ]
     );
     return res.status(201).json({ data: result.rows[0] });
   } catch (error) {

@@ -6,7 +6,7 @@ const surveys = async (req: Request, res: Response) => {
     const { user_id } = req.params;
 
     const result = await pool.query(
-      "SELECT survey_id, title, description, TO_CHAR(expiry_date, 'Day DD Mon YYYY at HH:MI:SS AM') as expiry_date, active, questions, TO_CHAR(updated_at, 'Day DD Mon YYYY at HH:MI:SS AM') as updated_at FROM surveys  WHERE user_id = $1 ORDER BY created_at DESC",
+      "SELECT survey_id, title, description, TO_CHAR(expiry_date, 'Day DD Mon YYYY at HH:MI:SS AM') as expiry_date, active, questions, TO_CHAR(updated_at, 'Day DD Mon YYYY at HH:MI:SS AM') as updated_at FROM surveys WHERE user_id = $1 ORDER BY created_at DESC",
       [user_id]
     );
 

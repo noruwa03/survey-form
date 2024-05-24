@@ -7,8 +7,17 @@ const createSurvey = async (req: Request, res: Response) => {
       req.body;
 
     const result = await pool.query(
-      "INSERT INTO surveys (title, description, expiry_date, active, questions, user_id) VALUES($1, $2, $3, $4, $5::JSON[], $6) RETURNING *",
-      [title, description, expiry_date, active, questions, user_id]
+      "INSERT INTO surveys (title, description, expiry_date, active, questions, user_id, created_at, updated_at) VALUES($1, $2, $3, $4, $5::JSON[], $6, $7, $8) RETURNING *",
+      [
+        title,
+        description,
+        expiry_date,
+        active,
+        questions,
+        user_id,
+        new Date().toISOString(),
+        new Date().toISOString(),
+      ]
     );
     return res.status(201).json({ data: result.rows[0] });
   } catch (error) {
